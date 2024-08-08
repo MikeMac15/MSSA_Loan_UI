@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "MSSA_Loan_1_CMDLN": {
+      "commandName": "Project"
+    },
+    "batch": {
+      "commandName": "Project",
+      "commandLineArgs": "-a 25000\r\n-i 5\r\n-t 60\r\n--simulate"
+    },
+    "interactive": {
+      "commandName": "Project"
+    },
+    "batch help": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}
