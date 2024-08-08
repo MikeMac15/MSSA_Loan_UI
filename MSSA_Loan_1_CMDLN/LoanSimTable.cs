@@ -20,7 +20,7 @@ namespace MSSA_Loan_1_CMDLN
         {
 
             double totalInterest = MonthlyDetailsList.Sum(x => x.InterestPayment);
-
+            double totalPrincipal = MonthlyDetailsList.Sum(x => x.PrincipalPayment);
 
             var table = new Table()
             .Centered()
@@ -35,10 +35,11 @@ namespace MSSA_Loan_1_CMDLN
             {
                 table.AddRow(month.Month.ToString(), month.Payment.ToString("C"), month.PrincipalPayment.ToString("C"), month.InterestPayment.ToString("C"), month.RemainingBalance.ToString("C"));
             }
-        
 
-        
+
+
             AnsiConsole.Write(table);
+            AnsiConsole.WriteLine($"Total Interest Paid: {totalInterest.ToString("C")}");
         }
     }
 }

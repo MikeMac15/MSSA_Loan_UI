@@ -13,17 +13,46 @@ namespace MSSA_Loan_1_CMDLN
             // Check if there are command-line arguments provided
             if (args.Length > 0)
             {
-                // Run the CLI mode
                 var app = new CommandApp<LoanCLI>();
                 app.Run(args);
             }
             else
             {
-                // Run the interactive mode
                 RunInteractiveMode();
             }
         }
+        private static void RunInteractiveMode()
+        {
+  
+            AnsiConsole.MarkupLine("[bold green]Welcome to the Loan Calculator![/]");
+            // Read input values
+            var loanAmount = AnsiConsole.Ask<double>("Enter the loan amount:");
+            var interestRate = AnsiConsole.Ask<double>("Enter the interest rate percentage:");
+            var loanTerm = AnsiConsole.Ask<int>("Enter the loan term (in months):");
 
+            Loan loan = new Loan(loanAmount, interestRate, loanTerm);
+
+            string cont = "Y";
+ 
+            while (cont.ToUpper() == "Y")
+            {
+                var choice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("How can we help?")
+                        .PageSize(10)
+                        .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                        .AddChoices(new[] {
+                            "Loan Details", "Make Payment", "Months Left On Loan",
+                            "Update Loan State", "Display Simulated Loan Table"
+                        }));
+                ExecuteChoice(choice, loan);
+
+                cont = AnsiConsole.Ask<string>("Would you like to perform another operation? (Y/N)");
+                AnsiConsole.WriteLine();
+            }
+            AnsiConsole.MarkupLine("Have a great day.");
+
+        }
         public static void DisplayLoanDetails(Loan loan)
         {
             //AnsiConsole.MarkupLine($"~Loan Agreement~");
@@ -73,12 +102,7 @@ namespace MSSA_Loan_1_CMDLN
                 .AddRow("Interest Paid", $"{interestPaid}")
                 .AddRow("Principal Paid", $"{principalPaid}")
             );
-
-
-
-
         }
-
         private static void ExecuteChoice(string choice, Loan loan) {
             switch (choice)
             {
@@ -118,40 +142,6 @@ namespace MSSA_Loan_1_CMDLN
                     AnsiConsole.WriteLine();
                     break;
             }
-        }
-
-        private static void RunInteractiveMode()
-        {
-            // Display a welcome message
-            AnsiConsole.MarkupLine("[bold green]Welcome to the Loan Calculator![/]");
-            // Read input values
-            var loanAmount = AnsiConsole.Ask<double>("Enter the loan amount:");
-            var interestRate = AnsiConsole.Ask<double>("Enter the interest rate percentage:");
-            var loanTerm = AnsiConsole.Ask<int>("Enter the loan term (in months):");
-
-            Loan loan = new Loan(loanAmount, interestRate, loanTerm);
-
-            string cont = "Y";
-            // Loop to allow the user to calculate multiple loans
-            while (cont.ToUpper() == "Y")
-            {
-                var choice = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("How can we help?")
-                        .PageSize(10)
-                        .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
-                        .AddChoices(new[] {
-                            "Loan Details", "Make Payment", "Months Left On Loan",
-                            "Update Loan State", "Display Simulated Loan Table"
-                        }));
-                ExecuteChoice(choice, loan);
-
-
-                cont = AnsiConsole.Ask<string>("Would you like to perform another operation? (Y/N)");
-                AnsiConsole.WriteLine();
-            }
-            AnsiConsole.MarkupLine("Have a great day.");
-
         }
     }
 }
